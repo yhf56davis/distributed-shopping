@@ -1,23 +1,18 @@
 package pers.yhf.seckill;
 
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import pers.yhf.seckill.config.SeckillOrderConfig;
  
  
 
 @SpringBootApplication
-@MapperScan("pers.yhf.seckill.mapper")
-@EnableScheduling
-public class SecKillApplication extends WebMvcConfigurerAdapter implements CommandLineRunner{
+@MapperScan("pers.yhf.seckill.mapper") 
+public class SecKillApplication 
+    extends WebMvcConfigurerAdapter implements CommandLineRunner{
 	 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(SecKillApplication.class, args);
@@ -32,7 +27,7 @@ public class SecKillApplication extends WebMvcConfigurerAdapter implements Comma
             }
         }, 1000, 2000, TimeUnit.MILLISECONDS);*/
         
-        SeckillOrderConfig config = new SeckillOrderConfig();
+       /* SeckillOrderConfig config = new SeckillOrderConfig();
         ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(2);
         
         exec.scheduleAtFixedRate(new Runnable() {//每隔一段时间打印系统时间，证明两者是互不影响的
@@ -41,7 +36,7 @@ public class SecKillApplication extends WebMvcConfigurerAdapter implements Comma
             	config.cancelOrder();
             }
         }, 1000, 2000, TimeUnit.MILLISECONDS);
-
+*/
     }
     
     

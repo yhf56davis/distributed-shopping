@@ -207,8 +207,8 @@ public class SecKillController implements InitializingBean{
 	
 	
 	 
-    @Scheduled(fixedRate = 30000)
-    @Transactional
+    //@Scheduled(fixedRate = 30000)
+    //@Transactional
     public void cancelOrder(){
 		  
 		 System.out.println("正在扫描需要取消的订单信息...."); 
