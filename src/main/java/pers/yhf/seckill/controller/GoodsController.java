@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring4.context.SpringWebContext;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
@@ -67,8 +68,14 @@ public class GoodsController {
 	      
 	    
 	      //手动渲染
-	     SpringWebContext ctx = new SpringWebContext(request,response,request.getServletContext(),
+	     
+	      SpringWebContext ctx = new SpringWebContext(request,response,request.getServletContext(),
 	    		                                     request.getLocale(),model.asMap(),applicationContext);
+	    		                                     
+	     
+	    // WebContext ctx = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap());
+	     
+	     
 	     html = thymeleafViewResolver.getTemplateEngine().process("goods_list", ctx);
        if(!StringUtils.isEmpty(html)){
     	   //保存到缓存中
@@ -122,7 +129,7 @@ public class GoodsController {
     		@PathVariable("goodsId")long goodsId) {
 		  //snowflake 生成userId
 		
-	      model.addAttribute("user",user);
+	      model.addAttribute("user",user); 
 	      
 	      //先从Redis处访问,取缓存
 		     String html = redisService.get(SecKillActivityKey.getGoodsDetail, "", String.class);    
@@ -164,8 +171,11 @@ public class GoodsController {
 	       
 		//return "goods_detail";
 	     
-	     SpringWebContext ctx = new SpringWebContext(request,response,request.getServletContext(),
+	    SpringWebContext ctx = new SpringWebContext(request,response,request.getServletContext(),
 	    		                                     request.getLocale(),model.asMap(),applicationContext);
+	     
+	    // WebContext ctx = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap()); 
+	     
 	     html = thymeleafViewResolver.getTemplateEngine().process("goods_detail", ctx);
        if(!StringUtils.isEmpty(html)){
     	   //保存到缓存中
