@@ -52,7 +52,7 @@ public class MQSender {
 	}
 */
 
-	 public void sendMiaoshaMessage(MiaoshaMessage message) {
+	 public void sendMiaoshaMessage(SeckillMessage message) {
 		 String msg = RedisService.beanToString(message);
 			log.info("send message: "+msg);  
 			amqpTemplate.convertAndSend(MQConfig.SECKILL_QUEUE, msg);

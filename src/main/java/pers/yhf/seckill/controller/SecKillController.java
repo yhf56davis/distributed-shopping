@@ -1,20 +1,20 @@
 package pers.yhf.seckill.controller;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+ 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +22,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+
+import pers.yhf.seckill.config.MQConfig;
 import pers.yhf.seckill.domain.SeckillGoods;
 import pers.yhf.seckill.domain.SeckillOrder;
 import pers.yhf.seckill.domain.SeckillUser;
-import pers.yhf.seckill.rabbitmq.MQSender;
-import pers.yhf.seckill.rabbitmq.MiaoshaMessage;
+import pers.yhf.seckill.rabbitmq.MQSender; 
+import pers.yhf.seckill.rabbitmq.SeckillMessage;
 import pers.yhf.seckill.redisCluster.RedisService;
 import pers.yhf.seckill.redisCluster.SecKillActivityKey;
 import pers.yhf.seckill.result.CodeMsg;
@@ -34,6 +40,7 @@ import pers.yhf.seckill.result.Result;
 import pers.yhf.seckill.service.AccessLimitService;
 import pers.yhf.seckill.service.GoodsService;
 import pers.yhf.seckill.service.SeckillService;
+import pers.yhf.seckill.util.ReadUtil;
 import pers.yhf.seckill.service.OrderService;
 import pers.yhf.seckill.vo.GoodsVo;
  
@@ -84,24 +91,24 @@ public class SecKillController implements InitializingBean{
 	
 	@RequestMapping(value="/{path}/do_miaosha",method = RequestMethod.POST)
 	@ResponseBody
-    public Result<Integer> doMiaosha(Model model,SeckillUser user,
-    		@RequestParam("goodsId")long goodsId,@PathVariable("path")String path) {
+    public Result<Integer>  doSeckill(Model model,SeckillUser user,
+    		@RequestParam("goodsId")long goodsId,@PathVariable("path")String path) throws IOException, TimeoutException {
 	    model.addAttribute("user",user); 
 	    
 	     if(user == null){ 
-	    	  return Result.error(CodeMsg.SESSION_ERROR);
+	        return Result.error(CodeMsg.SESSION_ERROR);   
 	     }
 	     
 	     //验证path
 	     boolean isPathValid = seckillService.checkPath(user,goodsId,path);
 	     if(!isPathValid){
-	    	 return Result.error(CodeMsg.REQUEST_ILLEGAL);
+	       return Result.error(CodeMsg.REQUEST_ILLEGAL);
 	     }
 	      
 	     //此处内存标记，目的在于减少对于Redis的访问
 	     boolean over = isSecKillOverMap.get(goodsId);
 	     if(over){  
-	    	 return Result.error(CodeMsg.SECKILL_OVER);
+	    	return Result.error(CodeMsg.SECKILL_OVER);
 	     }
 	     
 	     //假如有10个商品，某用户同时发出两个请求 req1, req2
@@ -115,22 +122,66 @@ public class SecKillController implements InitializingBean{
 	        System.out.println("预减库存：     id="+goodsId+"  stock="+stock); 
 	       if(stock<0){
 	    	   isSecKillOverMap.put(goodsId, true);  
-	    	   return Result.error(CodeMsg.SECKILL_OVER);
+	    	  return Result.error(CodeMsg.SECKILL_OVER);
 	       }
 	       
 	     //3判断是否秒杀到了
 	       SeckillOrder order = orderService.getSeckillOrderByUserIdAndGoodsId(user.getId(), goodsId);
 	      if(order!=null){  
-	    	  return Result.error(CodeMsg.REPEAT_SECKILL);
+	    	return Result.error(CodeMsg.REPEAT_SECKILL);
 	      }
 	     
-	     //4 入队
-	      MiaoshaMessage mm = new MiaoshaMessage();
+	     //4 ------------------------------------------入-----队----------------------------------------------- 
+	      
+	      
+	    /*  ConnectionFactory factory = new ConnectionFactory();
+	      String rabbitmqHost = ReadUtil.getContentFromProperties("rabbitMQHost");
+	      String rabbitMQUserName = ReadUtil.getContentFromProperties("rabbitMQUserName");
+	      String rabbitMQPassword = ReadUtil.getContentFromProperties("rabbitMQPassword");
+	      
+	      factory.setHost(rabbitmqHost);
+	      factory.setPort(15672);
+	      factory.setUsername(rabbitMQUserName);
+	      factory.setPassword(rabbitMQPassword); 
+	      Connection connection = factory.newConnection();
+	      Channel channel = connection.createChannel();
+	      
+	      Map<String, Object> arguments = new HashMap<String, Object>();
+	       
+	        // 统一设置队列中的所有消息的过期时间
+	        arguments.put("x-message-ttl", 30000);
+	        // 设置超过多少毫秒没有消费者来访问队列，就删除队列的时间
+	        arguments.put("x-expires", 20000);
+	        // 设置队列的最新的N条消息，如果超过N条，前面的消息将从队列中移除掉
+	        arguments.put("x-max-length", 4);
+	        // 设置队列的内容的最大空间，超过该阈值就删除之前的消息
+	        arguments.put("x-max-length-bytes", 1024);
+	        // 将删除的消息推送到指定的交换机，一般x-dead-letter-exchange和x-dead-letter-routing-key需要同时设置
+	        //arguments.put("x-dead-letter-exchange", MQConfig.EXCHANGE_DEAD_NAME);
+	        // 将删除的消息推送到指定的交换机对应的路由键
+	        arguments.put("x-dead-letter-routing-key", MQConfig.ROUTEKEY_NAME);
+	        // 设置消息的优先级，优先级大的优先被消费
+	        arguments.put("x-max-priority", 10);*/
+	        
+
+	      //channel.queueDeclare(MQConfig.SECKILL_QUEUE, MQConfig.iSDURABLE, MQConfig.EXCLUSIVE, MQConfig.AUTODELETE, arguments);
+	      //channel.queueBind(MQConfig.SECKILL_QUEUE, MQConfig.EXCHANGE_NAME, "");
+	       
+	      
+	      // 设置消息持久化
+	      AMQP.BasicProperties.Builder properties = new AMQP.BasicProperties().builder();
+	      properties.deliveryMode(MQConfig.DELIVERMODE);
+	      //channel.basicPublish(MQConfig.EXCHANGE_NAME, "", properties.build(),"".getBytes("UTF-8"));
+	      
+	      SeckillMessage mm = new SeckillMessage();
 	      mm.setUser(user);
 	      mm.setGoodsId(goodsId); 
 	      sender.sendMiaoshaMessage(mm);
+	      
+	      //channel.close();
+	      //connection.close();
 	    
-	      return Result.success(0); //排队中
+	    return Result.success(0); //排队中
 	 }
 	
 	

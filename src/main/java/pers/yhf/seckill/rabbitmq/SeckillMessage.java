@@ -2,7 +2,7 @@ package pers.yhf.seckill.rabbitmq;
 
 import pers.yhf.seckill.domain.SeckillUser;
 
-public class MiaoshaMessage {
+public class SeckillMessage {
 
 	private SeckillUser user;
 	

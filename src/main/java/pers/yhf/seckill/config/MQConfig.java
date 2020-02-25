@@ -11,6 +11,25 @@ public class MQConfig {
 	
 	public static final String SECKILL_QUEUE = "seckillqueue"; 
 	
+	public static final boolean iSDURABLE = true;
+	
+	//设置消息是否持久化，1: 非持久化   2: 持久化
+	public static final int DELIVERMODE = 2;
+	
+	public static final boolean EXCLUSIVE = false;
+	
+	public static final boolean AUTODELETE = true;
+	
+	// 声明一个接收被删除的消息的交换机和队列
+    public static final String EXCHANGE_DEAD_NAME = "exchange.dead";
+    
+    public static final String QUEUE_DEAD_NAME = "queue_dead";
+
+    public static final String EXCHANGE_NAME = "exchange.fanout";
+    
+    public static final String ROUTEKEY_NAME = "routingkey.dead";
+    
+    
 
 	/**
 	 * 直接模式
@@ -18,7 +37,8 @@ public class MQConfig {
 	 */
 	@Bean
 	public Queue queue(){
-		return new Queue(QUEUE,true);
+		//队列持久化
+	 return new Queue(QUEUE,iSDURABLE);
 	}
 	
 	/**

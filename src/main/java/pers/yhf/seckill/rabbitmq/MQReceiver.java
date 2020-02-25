@@ -31,7 +31,7 @@ public class MQReceiver {
 	private OrderService orderService; 
 	
 	@Autowired
-	private SeckillService miaoshaService;
+	private SeckillService seckillService;
 	
 	/**
 	 * Direct模式
@@ -41,7 +41,7 @@ public class MQReceiver {
 	@RabbitListener(queues=MQConfig.SECKILL_QUEUE)
 	public void receive(String message){
 		log.info("receive message: "+message);
-		MiaoshaMessage mm = redisService.stringToBean(message, MiaoshaMessage.class);
+		SeckillMessage mm = redisService.stringToBean(message, SeckillMessage.class);
 		SeckillUser user = mm.getUser();
 	     long goodsId = mm.getGoodsId();
 	     
@@ -55,7 +55,7 @@ public class MQReceiver {
 	     if(order != null) return ; 
 	     
 	   //减库存    下订单  写入秒杀订单
-	     miaoshaService.seckill(user,goods);
+	     this.seckillService.seckill(user,goods);
 	   
 	     
 	}
