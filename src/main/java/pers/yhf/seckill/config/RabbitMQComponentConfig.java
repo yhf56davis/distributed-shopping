@@ -1,11 +1,19 @@
 package pers.yhf.seckill.config;
   
-import org.springframework.amqp.core.Queue; 
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.amqp.core.*;
 
+
+/**
+ * @author huangQiChang
+ * 设置交换机 消息队列 以及相关的绑定信息
+ */
 @Configuration
-public class MQConfig {
+public class RabbitMQComponentConfig {
 	
 	public static final String QUEUE = "queue";
 	
@@ -19,6 +27,8 @@ public class MQConfig {
 	public static final boolean EXCLUSIVE = false;
 	
 	public static final boolean AUTODELETE = true;
+	
+	public static final boolean AUTOACK = true;
 	
 	// 声明一个接收被删除的消息的交换机和队列
     public static final String EXCHANGE_DEAD_NAME = "exchange.dead";
@@ -38,7 +48,7 @@ public class MQConfig {
 	@Bean
 	public Queue queue(){
 		//队列持久化
-	 return new Queue(QUEUE,iSDURABLE);
+	 return new Queue(SECKILL_QUEUE,iSDURABLE);
 	}
 	
 	/**
@@ -85,11 +95,7 @@ public class MQConfig {
 		return new Queue(HEADERS_QUEUE,true);
 	}*/
 	
-	
-	
-	
-	
-	
+	 
 	/*@Bean
 	public Binding topicBinding1(){
 		return BindingBuilder.bind(topicQueue1()).to(topicExchange()).with(ROUTING_KEY1);
@@ -128,6 +134,40 @@ public class MQConfig {
 				.whereAll(map).match();
 	}*/
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*  @Bean
+	    public TopicExchange topicExchange() {
+	        return new TopicExchange("myEx");
+	    }
+	@Bean
+	    public Binding binding() {
+	        return BindingBuilder.bind(queue()).to(topicExchange()).with("myQ.*");
+	    }
+
+	    @Bean
+	    public DirectExchange directExchange() {
+	        return new DirectExchange("myDire",false,true);
+	    }
+
+	    @Bean
+	    public Queue queue_not_in() {
+	        return new Queue("myDire.notIn");
+	    }
+
+	    @Bean
+	    public Binding directExchange_queue_not_in_binding() {
+	        return BindingBuilder.bind(queue_not_in()).to(directExchange()).with("myDire.notIn");
+	    }
+*/
 	
 	
 }

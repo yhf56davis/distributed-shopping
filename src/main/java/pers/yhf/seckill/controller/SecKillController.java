@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
 import javax.imageio.ImageIO;
@@ -26,8 +27,8 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-
-import pers.yhf.seckill.config.MQConfig;
+ 
+import pers.yhf.seckill.config.RabbitMQComponentConfig;
 import pers.yhf.seckill.domain.SeckillGoods;
 import pers.yhf.seckill.domain.SeckillOrder;
 import pers.yhf.seckill.domain.SeckillUser;
@@ -132,54 +133,30 @@ public class SecKillController implements InitializingBean{
 	      }
 	     
 	     //4 ------------------------------------------入-----队----------------------------------------------- 
-	      
-	      
-	    /*  ConnectionFactory factory = new ConnectionFactory();
-	      String rabbitmqHost = ReadUtil.getContentFromProperties("rabbitMQHost");
-	      String rabbitMQUserName = ReadUtil.getContentFromProperties("rabbitMQUserName");
-	      String rabbitMQPassword = ReadUtil.getContentFromProperties("rabbitMQPassword");
-	      
-	      factory.setHost(rabbitmqHost);
-	      factory.setPort(15672);
-	      factory.setUsername(rabbitMQUserName);
-	      factory.setPassword(rabbitMQPassword); 
-	      Connection connection = factory.newConnection();
-	      Channel channel = connection.createChannel();
-	      
-	      Map<String, Object> arguments = new HashMap<String, Object>();
-	       
-	        // 统一设置队列中的所有消息的过期时间
-	        arguments.put("x-message-ttl", 30000);
-	        // 设置超过多少毫秒没有消费者来访问队列，就删除队列的时间
-	        arguments.put("x-expires", 20000);
-	        // 设置队列的最新的N条消息，如果超过N条，前面的消息将从队列中移除掉
-	        arguments.put("x-max-length", 4);
-	        // 设置队列的内容的最大空间，超过该阈值就删除之前的消息
-	        arguments.put("x-max-length-bytes", 1024);
-	        // 将删除的消息推送到指定的交换机，一般x-dead-letter-exchange和x-dead-letter-routing-key需要同时设置
-	        //arguments.put("x-dead-letter-exchange", MQConfig.EXCHANGE_DEAD_NAME);
-	        // 将删除的消息推送到指定的交换机对应的路由键
-	        arguments.put("x-dead-letter-routing-key", MQConfig.ROUTEKEY_NAME);
-	        // 设置消息的优先级，优先级大的优先被消费
-	        arguments.put("x-max-priority", 10);*/
-	        
-
-	      //channel.queueDeclare(MQConfig.SECKILL_QUEUE, MQConfig.iSDURABLE, MQConfig.EXCLUSIVE, MQConfig.AUTODELETE, arguments);
-	      //channel.queueBind(MQConfig.SECKILL_QUEUE, MQConfig.EXCHANGE_NAME, "");
-	       
+	     
 	      
 	      // 设置消息持久化
 	      AMQP.BasicProperties.Builder properties = new AMQP.BasicProperties().builder();
-	      properties.deliveryMode(MQConfig.DELIVERMODE);
+	      properties.deliveryMode(RabbitMQComponentConfig.DELIVERMODE);
 	      //channel.basicPublish(MQConfig.EXCHANGE_NAME, "", properties.build(),"".getBytes("UTF-8"));
+	      
 	      
 	      SeckillMessage mm = new SeckillMessage();
 	      mm.setUser(user);
 	      mm.setGoodsId(goodsId); 
+	      
+	      //String msg = user.getId()+"-"+goodsId;
+	     // sender.sendMiaoshaMessage(msg);
+	      
 	      sender.sendMiaoshaMessage(mm);
 	      
-	      //channel.close();
-	      //connection.close();
+	      
+	     /* if (channel != null) {
+              channel.close();
+          }
+          if (connection != null) {
+              connection.close();
+          }*/
 	    
 	    return Result.success(0); //排队中
 	 }

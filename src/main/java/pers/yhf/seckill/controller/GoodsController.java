@@ -13,8 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.thymeleaf.context.WebContext;
+import org.springframework.web.bind.annotation.ResponseBody; 
 import org.thymeleaf.spring4.context.SpringWebContext;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
@@ -22,8 +21,7 @@ import pers.yhf.seckill.domain.SeckillUser;
 import pers.yhf.seckill.redisCluster.RedisService;
 import pers.yhf.seckill.redisCluster.SecKillActivityKey;
 import pers.yhf.seckill.result.Result;
-import pers.yhf.seckill.service.GoodsService;
-import pers.yhf.seckill.service.SeckillUserService;
+import pers.yhf.seckill.service.GoodsService; 
 import pers.yhf.seckill.vo.GoodsDetailVo;
 import pers.yhf.seckill.vo.GoodsVo;
  
@@ -35,9 +33,6 @@ public class GoodsController {
 
 	@Autowired
 	private RedisService redisService;
-	
-	@Autowired
-	private SeckillUserService miaoshaUserService;
 	
 	@Autowired
 	private GoodsService goodsService;
@@ -77,6 +72,7 @@ public class GoodsController {
 	     
 	     
 	     html = thymeleafViewResolver.getTemplateEngine().process("goods_list", ctx);
+	     
        if(!StringUtils.isEmpty(html)){
     	   //保存到缓存中
     	   redisService.set(SecKillActivityKey.getGoodsList, "",html);

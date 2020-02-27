@@ -9,6 +9,18 @@ public class ReadUtil {
 
 	public static String path = "src/main/resources/application.properties"; 
 	
+	
+	public static void main(String[] args){
+		
+		  String rabbitmqHost = ReadUtil.getContentFromProperties("rabbitMQHost");
+	      String rabbitMQUserName = ReadUtil.getContentFromProperties("rabbitMQUserName");
+	      String rabbitMQPassword = ReadUtil.getContentFromProperties("rabbitMQPassword");
+	      
+	      System.out.println(rabbitmqHost+"   "+rabbitMQUserName+"   "+rabbitMQPassword);
+		
+	}
+	
+	
 	public static String getContentFromProperties(String propertyName){
 		FileReader reader;
 		String property = "";

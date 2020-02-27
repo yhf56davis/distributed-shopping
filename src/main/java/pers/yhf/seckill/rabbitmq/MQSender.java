@@ -8,7 +8,7 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pers.yhf.seckill.config.MQConfig;
+import pers.yhf.seckill.config.RabbitMQComponentConfig;
 import pers.yhf.seckill.redisCluster.RedisService; 
 
 @Service
@@ -52,14 +52,22 @@ public class MQSender {
 	}
 */
 
+	
+	
+	
 	 public void sendMiaoshaMessage(SeckillMessage message) {
 		 String msg = RedisService.beanToString(message);
 			log.info("send message: "+msg);  
-			amqpTemplate.convertAndSend(MQConfig.SECKILL_QUEUE, msg);
+			amqpTemplate.convertAndSend(RabbitMQComponentConfig.SECKILL_QUEUE, msg);
 	 }
 	
 	
 	
+	/*
+	 public void sendMiaoshaMessage(String msg) { 
+			log.info("send message: "+msg);  
+			amqpTemplate.convertAndSend(MQConfig.SECKILL_QUEUE, msg);
+	 }*/
 	
 	
 	

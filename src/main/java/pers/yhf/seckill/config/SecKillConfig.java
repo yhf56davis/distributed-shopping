@@ -1,4 +1,6 @@
-package pers.yhf.seckill.config; 
+package pers.yhf.seckill.config;
+
+import pers.yhf.seckill.util.TimeUtil;
 
 /**
  * 关于商品秒杀的配置
@@ -15,8 +17,8 @@ public class SecKillConfig {
 	
 	
 	//秒杀商品缓存操作的过期时间设置 (单位：秒)，其中0表示永久
-	public static final int GOODSLIST_EXPIRE = 60;             //秒杀商品清单                  
-	public static final int GOODSDETAIL_EXPIRE = 60;           //秒杀商品详情
+	public static final int GOODSLIST_EXPIRE = 60 + TimeUtil.getRandomTimeValue() ;             //秒杀商品清单                  
+	public static final int GOODSDETAIL_EXPIRE = 60 ;           //秒杀商品详情
 	public static final int SECKILL_GOODSSTOCK_EXPIRE = 0;      //秒杀商品库存
 	 
 	public static final int JUDGE_GOODSOVER_EXPIRE = 0;        //判断库存是否够

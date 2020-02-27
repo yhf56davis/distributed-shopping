@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 
-import pers.yhf.seckill.config.SecKillConfig;
 import pers.yhf.seckill.redisCluster.JedisClusterConfig;
 import redis.clients.jedis.JedisCluster;
 
@@ -33,7 +32,7 @@ public class RedisService {
 		    //生成真正的key
 		    String realKey = prefix.getPrefix()+key;
 		    int seconds = prefix.expireSeconds();
-		      // System.out.println("seconds:"+seconds);
+		       //  System.out.println("seconds:"+seconds);
 		    if(seconds<=0){
 		    	jedisCluster.set(realKey, str);
 		    }
