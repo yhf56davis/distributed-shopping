@@ -8,7 +8,7 @@
     </select>
     
     
-     <insert id="insertMiaoshaOrder" parameterType="SeckillOrder">
+     <insert id="insertSeckillOrder" parameterType="SeckillOrder">
        insert into seckill_order (user_id, goods_id, order_id)values(#{userId}, #{goodsId}, #{orderId})
     </insert>
     

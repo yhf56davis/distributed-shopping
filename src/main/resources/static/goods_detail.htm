@@ -80,7 +80,7 @@
  function getSecKillPath(){
 	var goodsId = $("#goodsId").val();
 	 $.ajax({
-			url:"/miaosha/path",
+			url:"/seckill/path",
 			type:"GET",
 			data:{
 				goodsId:goodsId,
@@ -89,7 +89,7 @@
 			success:function(data){
 				if(data.code == 0){ 
 				  var path = data.data;  //获取到秒杀路径后，开始执行秒杀接口
-				  doMiaosha(path);
+				  doSeckill(path);
 				   	
 				}else{
 					layer.msg(data.msg);
@@ -105,10 +105,10 @@
  
  
 
- function getMiaoshaResult(goodsId){
+ function getSecKillResult(goodsId){
 	 g_showLoading();
 	 $.ajax({
-			url:"/miaosha/result",
+			url:"/seckill/result",
 			type:"GET",
 			data:{
 				goodsId:$("#goodsId").val(),
@@ -123,7 +123,7 @@
 					}
 					else if(result==0){//继续轮询 ,200毫秒询一次,设置的值太小会使得服务器压力变大
 						setTimeout(function(){
-							getMiaoshaResult(goodsId);
+							getSecKillResult(goodsId);
 						}, 200);
 					}
 					else{
@@ -146,9 +146,9 @@
 		});
  }
 
-  function doMiaosha(path){
+  function doSeckill(path){
 	$.ajax({
-		url:"/miaosha/"+path+"/do_miaosha",
+		url:"/seckill/"+path+"/doSeckill",
 		type:"POST",
 		data:{
 			goodsId:$("#goodsId").val(),
@@ -157,7 +157,7 @@
 			if(data.code == 0){
 				//window.location.href="/order_detail.htm?orderId="+data.data.id;
 			
-			getMiaoshaResult($("#goodsId").val());
+			getSecKillResult($("#goodsId").val());
 				
 			}else{
 				layer.msg(data.msg);
@@ -233,7 +233,7 @@ function countDown(){
 		$("#miaoshaTip").html("秒杀进行中");
 		
 		//生成验证码
-		$("#verifyCodingImg").attr("src","/miaosha/verifyCode?goodsId="+$("#goodsId").val());
+		$("#verifyCodingImg").attr("src","/seckill/verifyCode?goodsId="+$("#goodsId").val());
 		$("#verifyCodingImg").show();
 		$("#verifyCode").show();
 		
@@ -247,11 +247,11 @@ function countDown(){
 	}
 }
 
-
+ 
 
 
 function refreshVerifyCode(){
-	$("#verifyCodingImg").attr("src", "/miaosha/verifyCode?goodsId="+$("#goodsId").val()+"&timestamp="+new Date().getTime());
+	$("#verifyCodingImg").attr("src", "/seckill/verifyCode?goodsId="+$("#goodsId").val()+"&timestamp="+new Date().getTime());
 }
 
 

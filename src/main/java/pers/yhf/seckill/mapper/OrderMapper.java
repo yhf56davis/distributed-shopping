@@ -14,7 +14,7 @@ public interface OrderMapper {
  
 	public long insertOrderInfo(OrderInfo orderInfo);
  
-	public void insertMiaoshaOrder(SeckillOrder miaoshaOrder);
+	public void insertSeckillOrder(SeckillOrder seckillOrder);
  
 	public OrderInfo getOrderById(@Param("orderId")long orderId);
  

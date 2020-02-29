@@ -28,42 +28,7 @@ public class OrderService {
 	    // return this.orderDao.getMiaoshaOrderByUserIdAndGoodsId(userId,goodsId);
 		return redisService.get(SecKillActivityKey.getSecKillOrderByUidGid, ""+userId+"_"+goodsId, SeckillOrder.class);
 	}
-
-	
-	
-	/*@Transactional
-	public OrderInfo createOrder(Long userId, GoodsVo goods) { 
-		
-		OrderInfo orderInfo = new OrderInfo();
-		
-		
-		orderInfo.setCreateDate(new Date()); 
-		orderInfo.setDeliveryAddrId(0L); 
-		orderInfo.setGoodsCount(1);
-		orderInfo.setGoodsId(goods.getId());
-		orderInfo.setGoodsName(goods.getGoodsName()); 
-		
-		orderInfo.setGoodsPrice(goods.getMiaoshaPrice());
-		orderInfo.setOrderChannel(1);
-		orderInfo.setStatus(0);
-		orderInfo.setUserId(userId); 
-		
-		orderMapper.insertOrderInfo(orderInfo);
-		
-		SeckillOrder seckillOrder = new SeckillOrder();
-		 seckillOrder.setGoodsId(goods.getId());
-		 seckillOrder.setOrderId(orderInfo.getId());
-		 seckillOrder.setUserId(userId);
-		
-		orderMapper.insertMiaoshaOrder(seckillOrder);
-		
-		//生成订单后，需要写入缓存中
-		redisService.set(SecKillActivityKey.getSecKillOrderByUidGid, ""+userId+"_"+goods.getId(), seckillOrder);
-		
-		return orderInfo;
-	}*/
-	
-	
+ 
 	
 	
 	@Transactional
@@ -78,7 +43,7 @@ public class OrderService {
 		orderInfo.setGoodsId(goods.getId());
 		orderInfo.setGoodsName(goods.getGoodsName()); 
 		
-		orderInfo.setGoodsPrice(goods.getMiaoshaPrice());
+		orderInfo.setGoodsPrice(goods.getSeckillPrice()); 
 		orderInfo.setOrderChannel(1);
 		orderInfo.setStatus(0);
 		orderInfo.setUserId(user.getId()); 
@@ -90,7 +55,7 @@ public class OrderService {
 		 seckillOrder.setOrderId(orderInfo.getId());
 		 seckillOrder.setUserId(user.getId());
 		
-		orderMapper.insertMiaoshaOrder(seckillOrder);
+		orderMapper.insertSeckillOrder(seckillOrder);
 		
 		//生成订单后，需要写入缓存中
 		redisService.set(SecKillActivityKey.getSecKillOrderByUidGid, ""+user.getId()+"_"+goods.getId(), seckillOrder);

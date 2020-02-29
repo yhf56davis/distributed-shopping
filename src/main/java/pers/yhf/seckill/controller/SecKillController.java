@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
 import javax.imageio.ImageIO;
@@ -23,10 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.AMQP; 
  
 import pers.yhf.seckill.config.RabbitMQComponentConfig;
 import pers.yhf.seckill.domain.SeckillGoods;
@@ -40,14 +36,13 @@ import pers.yhf.seckill.result.CodeMsg;
 import pers.yhf.seckill.result.Result;
 import pers.yhf.seckill.service.AccessLimitService;
 import pers.yhf.seckill.service.GoodsService;
-import pers.yhf.seckill.service.SeckillService;
-import pers.yhf.seckill.util.ReadUtil;
+import pers.yhf.seckill.service.SeckillService; 
 import pers.yhf.seckill.service.OrderService;
 import pers.yhf.seckill.vo.GoodsVo;
  
 
 @Controller
-@RequestMapping("/miaosha")
+@RequestMapping("/seckill")
 public class SecKillController implements InitializingBean{
 
 	@Autowired
@@ -90,7 +85,7 @@ public class SecKillController implements InitializingBean{
 	
 	
 	
-	@RequestMapping(value="/{path}/do_miaosha",method = RequestMethod.POST)
+	@RequestMapping(value="/{path}/doSeckill",method = RequestMethod.POST)
 	@ResponseBody
     public Result<Integer>  doSeckill(Model model,SeckillUser user,
     		@RequestParam("goodsId")long goodsId,@PathVariable("path")String path) throws IOException, TimeoutException {

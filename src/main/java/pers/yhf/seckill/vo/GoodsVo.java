@@ -6,7 +6,7 @@ import pers.yhf.seckill.domain.Goods;
 
 public class GoodsVo extends Goods{
 	
-	private Double miaoshaPrice;
+	private Double seckillPrice;
 	
 	private Integer stockCount;
 	
@@ -15,12 +15,13 @@ public class GoodsVo extends Goods{
 	private Date endDate;
 
 	
-	public Double getMiaoshaPrice() {
-		return miaoshaPrice;
+
+	public Double getSeckillPrice() {
+		return seckillPrice;
 	}
 
-	public void setMiaoshaPrice(Double miaoshaPrice) {
-		this.miaoshaPrice = miaoshaPrice;
+	public void setSeckillPrice(Double seckillPrice) {
+		this.seckillPrice = seckillPrice;
 	}
 	
 	

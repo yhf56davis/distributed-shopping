@@ -16,8 +16,8 @@ public class SecKillConfig {
 	public static final String SECKILL_IMAGES_ADDR = "192.168.229.128/images/";
 	
 	
-	//秒杀商品缓存操作的过期时间设置 (单位：秒)，其中0表示永久
-	public static final int GOODSLIST_EXPIRE = 60 + TimeUtil.getRandomTimeValue() ;             //秒杀商品清单                  
+	//秒杀商品缓存操作的过期时间设置   10min  (单位：秒)，其中0表示永久
+	public static final int GOODSLIST_EXPIRE = 600 + TimeUtil.getRandomTimeValue() ;             //秒杀商品清单                  
 	public static final int GOODSDETAIL_EXPIRE = 60 ;           //秒杀商品详情
 	public static final int SECKILL_GOODSSTOCK_EXPIRE = 0;      //秒杀商品库存
 	 
@@ -30,7 +30,7 @@ public class SecKillConfig {
 	public static final int GETBYID_EXPIRE = 0;     //对象缓存希望永久
 	
 	 //秒杀订单中的中的uid与gid       订单有效时间：半小时
-	public static final int SECKILL_ORDERBYUIDGID_EXPIRE = 180;
+	public static final int SECKILL_ORDERBYUIDGID_EXPIRE = 1800 + TimeUtil.getRandomTimeValue();
  
 	 //限流 流量设置
 	public static final int SECKILL_FLU_NUM = 100;

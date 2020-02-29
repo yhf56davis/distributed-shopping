@@ -50,14 +50,24 @@ public class GoodsController {
 	    model.addAttribute("user",user);
 	    
 	    //先从Redis处访问,取缓存
-	     String html = redisService.get(SecKillActivityKey.getGoodsList, "", String.class);    
-	     if(!StringUtils.isEmpty(html)){
+	     String html = redisService.get(SecKillActivityKey.getGoodsList, "", String.class);
+	     
+	     
+	     /*if(!StringUtils.isEmpty(html)){
 	    	  System.out.println("Redis有数据"); 
 	    	 return html;
-	     }
+	     }*/
 	    
+	     
 	      //查询商品列表
 	      List<GoodsVo> goodsList = this.goodsService.getGoodsVoList();
+	      
+	      int len = goodsList.size();
+	      for(int i=0;i<len;i++){
+	    	  System.out.print(goodsList.get(i).getStockCount()+"  ");  
+	      } 
+	      
+	         System.out.println();
 	      model.addAttribute("goodsList", goodsList);
 		//return "goods_list";
 	      
