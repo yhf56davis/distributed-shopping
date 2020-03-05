@@ -2,9 +2,7 @@ package pers.yhf.seckill.rabbitmq;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.core.AmqpTemplate; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +53,7 @@ public class MQSender {
 	
 	
 	
-	 public void sendMiaoshaMessage(SeckillMessage message) {
+	 public void sendSeckillMessage(SeckillMessage message) {
 		 String msg = RedisService.beanToString(message);
 			log.info("send message: "+msg);  
 			amqpTemplate.convertAndSend(RabbitMQComponentConfig.SECKILL_QUEUE, msg);

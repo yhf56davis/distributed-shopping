@@ -142,7 +142,7 @@ public class SecKillController implements InitializingBean{
 	      //String msg = user.getId()+"-"+goodsId;
 	     // sender.sendMiaoshaMessage(msg);
 	      
-	      sender.sendMiaoshaMessage(mm);
+	      sender.sendSeckillMessage(mm);
 	      
 	      
 	     /* if (channel != null) {
