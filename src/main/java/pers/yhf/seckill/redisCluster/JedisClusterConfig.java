@@ -50,7 +50,7 @@ public class JedisClusterConfig {
         String[] serverArray = clusterNodes.split(",");//获取服务器数组(这里要相信自己的输入，所以没有考虑空指针问题)
         Set<HostAndPort> nodes = new HashSet<>();
         
-          System.out.println("serverArray[0]: "+serverArray[0]); 
+         // System.out.println("serverArray[0]: "+serverArray[0]); 
 
         for (String ipPort : serverArray) {
             String[] ipPortPair = ipPort.split(":");

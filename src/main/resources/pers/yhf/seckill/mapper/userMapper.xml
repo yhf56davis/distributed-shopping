@@ -11,6 +11,10 @@
     <select id="insert" parameterType="User" resultType="integer">
           insert into user(id,name) values(#{id},#{name})
     </select>
+    
+    <update id="decrease" parameterType="User">
+          update user set flag = flag -1 where id = #{id}
+    </update>
       
     
 </mapper>

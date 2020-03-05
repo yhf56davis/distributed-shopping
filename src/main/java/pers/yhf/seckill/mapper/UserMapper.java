@@ -12,4 +12,6 @@ public interface UserMapper {
 	 
 	public int insert(User user);
 
+	public void decrease(User user); 
+
 }

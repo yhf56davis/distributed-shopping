@@ -45,9 +45,9 @@ public class SecKillActivityKey implements KeyPrefix {
 	
 	
 	//秒杀商品
-    public static SecKillActivityKey getGoodsList = new SecKillActivityKey(SecKillConfig.GOODSLIST_EXPIRE,"gl");
-	public static SecKillActivityKey getGoodsDetail = new SecKillActivityKey(SecKillConfig.GOODSDETAIL_EXPIRE,"gd"); 
-	public static SecKillActivityKey getSecKillGoodsStock = new SecKillActivityKey(SecKillConfig.SECKILL_GOODSSTOCK_EXPIRE,"gs");
+    public static SecKillActivityKey getGoodsList = new SecKillActivityKey(SecKillConfig.GOODSLIST_EXPIRE,"goods_list");
+	public static SecKillActivityKey getGoodsDetail = new SecKillActivityKey(SecKillConfig.GOODSDETAIL_EXPIRE,"good_detail"); 
+	public static SecKillActivityKey getSecKillGoodsStock = new SecKillActivityKey(SecKillConfig.SECKILL_GOODSSTOCK_EXPIRE,"goods_stock");
 	
 	
 	//

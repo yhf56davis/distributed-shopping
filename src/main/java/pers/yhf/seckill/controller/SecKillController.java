@@ -74,8 +74,7 @@ public class SecKillController implements InitializingBean{
 		 if(goodsList==null) return;
 		//1 将商品数量加载到缓存中
 		 for(GoodsVo goods:goodsList){
-			 System.out.println("存入redis: "+SecKillActivityKey.getSecKillGoodsStock+""+goods.getId()
-			     +" : "+goods.getStockCount()); 
+			 //System.out.println("存入redis: "+SecKillActivityKey.getSecKillGoodsStock+""+goods.getId() +" : "+goods.getStockCount()); 
 			 
 			 redisService.set(SecKillActivityKey.getSecKillGoodsStock, ""+goods.getId(), goods.getStockCount());
 			 isSecKillOverMap.put(goods.getId(), false);

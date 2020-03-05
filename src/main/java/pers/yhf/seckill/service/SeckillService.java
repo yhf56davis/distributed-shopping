@@ -39,28 +39,7 @@ public class SeckillService {
 	@Autowired
 	private SeckillUserMapper seckillUserMapper;
 	
-	/*@Transactional
-	public OrderInfo seckill(Long userId, GoodsVo goods) {
-	   //在这里加事务的原因：
-		 //减库存而未记录购买明细，会导致商品少卖
-		 //记录购买明细而未减库存，会导致商品超卖
-		
-	   //减库存  下订单  写入秒杀订单
-		boolean success = goodsService.reduceStock(goods);  //这里 减库存有可能失败
-		//减库存成功才需要下订单
-		if(success){
-		return orderService.createOrder(userId,goods);
-		
-		//return orderService.createOrder(user,goods);
-		}
-		else{
-			setGoodsOver(goods.getId()); //商品秒杀完了
-			return null;
-		}
-	}*/
-	
-	
-	
+	 
 	@Transactional
 	public OrderInfo seckill(SeckillUser user, GoodsVo goods) {
 	   //在这里加事务的原因：
@@ -75,7 +54,7 @@ public class SeckillService {
 		}
 		else{
 			setGoodsOver(goods.getId()); //商品秒杀完了
-			return null;
+			throw new RuntimeException();
 		}
 	}
 	
