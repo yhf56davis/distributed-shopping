@@ -43,7 +43,7 @@ import pers.yhf.seckill.vo.GoodsVo;
 
 @Controller
 @RequestMapping("/seckill")
-public class SecKillController implements InitializingBean{
+public class SeckillController implements InitializingBean{
 
 	@Autowired
 	private GoodsService goodsService;
