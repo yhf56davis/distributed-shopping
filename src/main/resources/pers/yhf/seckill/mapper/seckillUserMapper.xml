@@ -3,7 +3,7 @@
 <mapper namespace="pers.yhf.seckill.mapper.SeckillUserMapper" >
      
      
-    <select id="getUserById" parameterType="long" resultType="SeckillUser">
+    <select id="getUserById" parameterType="long" resultType="SeckillUser" >
         select * from seckill_user where id = #{id}
     </select>
     
@@ -33,5 +33,16 @@
             where goods_id = #{goodsId}
     </update>
     
+    
+    
+   <select id="getSeckillGoodsList" resultType="SeckillGoods">
+        select * from seckill_goods
+    </select> 
+    
+     
+    <select id="getSeckillGoodsByGoodsId" parameterType="long" resultType="SeckillGoods">
+         select * from seckill_goods where goods_id = #{goodsId}
+    </select>
       
+         
 </mapper>

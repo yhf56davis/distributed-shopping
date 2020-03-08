@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.List;
 import java.util.Random;
 
 import javax.script.ScriptEngine;
@@ -204,6 +205,13 @@ public class SeckillService {
 		char op2 = ops[rdm.nextInt(3)];
 		String exp = ""+ num1 + op1 + num2 + op2 + num3;
 		return exp;
+	}
+
+
+
+
+	public List<SeckillGoods> getSeckillGoodsVoList() {  
+	    return this.seckillUserMapper.getSeckillGoodsList();
 	}
  
 	

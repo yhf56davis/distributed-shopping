@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.google.common.hash.BloomFilter;
@@ -11,12 +12,13 @@ import com.google.common.hash.Funnels;
   
 
 @SpringBootApplication
-@MapperScan("pers.yhf.seckill.mapper") 
-public class SecKillApplication extends WebMvcConfigurerAdapter implements CommandLineRunner{
+@MapperScan(basePackages = {"pers.yhf.seckill.mapper"})
+public class SecKillApplication extends SpringBootServletInitializer implements CommandLineRunner{
 	 
     public static void main(String[] args) throws Exception {
     	
     	//System.out.println(AMQP.PROTOCOL.PORT);
+    	//  @MapperScan("pers.yhf.seckill.mapper") 
     	
     	int size = 1000000;
     	BloomFilter<Integer> bloomFilter = BloomFilter.create(Funnels.integerFunnel(), size);
@@ -39,12 +41,17 @@ public class SecKillApplication extends WebMvcConfigurerAdapter implements Comma
     }
 
 	@Override
+	public void run(String... arg0) throws Exception {
+		System.out.println("系统启动完毕...");
+	}
+
+/*	@Override
 	public void run(String... arg0) throws Exception { 
 		
 		//布隆过滤器
 		
 		System.out.println("系统启动完毕...");
-	}
+	}*/
     
   
     

@@ -1,5 +1,7 @@
 package pers.yhf.seckill.redisCluster;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,25 +47,36 @@ public class RedisService {
             //jedis.set(realKey, str);
     		    return true;
     		 }
-          catch (Exception ex){
+            catch (Exception ex){
             log.error("setToRedis:{Key:"+key+",value"+value+"}",ex);
-        }
+            //returnToClusterPool(jedisCluster);
+           }
+         finally{
+        	// returnToClusterPool(jedisCluster);
+         }
          return false;
     }
 
     
      
     
-	public <T> T get(KeyPrefix prefix,String key, Class<T> clazz){ 
-        JedisCluster jedisCluster = null;
-          jedisCluster = jedisClusterConfig.getJedisCluster();
+	public <T> T get(KeyPrefix prefix,String key, Class<T> clazz){
+		JedisCluster jedisCluster = null;
+        try{ 
+        	jedisCluster = jedisClusterConfig.getJedisCluster();
         	//生成真正的key
 		    String realKey = prefix.getPrefix()+key;
             String str=jedisCluster.get(realKey);
             T t = stringToBean(str,clazz);
 		    return t; 
+        }
+         finally{
+        	 //returnToClusterPool(jedisCluster);
+         }
 	 }
      
+	 
+	
 	
 	@SuppressWarnings("unchecked")
 	public static<T> T stringToBean(String str, Class<T> clazz) {
@@ -106,41 +119,37 @@ public class RedisService {
 	 }
  
 
-	/*
-	 * private void returnToClusterPool(JedisCluster jedisCluster) { 
-		if(jedisCluster!=null){
-			try {
-				jedisCluster.close();
-			} catch (IOException e) { 
-				e.printStackTrace();
-			}
-		}
-	   }
-	*/
-
-	
 	
 	/**
 	 * 判断key是否存在
 	 * */
 	public <T> boolean exists(KeyPrefix prefix, String key) {
 		    JedisCluster jedisCluster = null; 
-			 jedisCluster = jedisClusterConfig.getJedisCluster();
-			//生成真正的key
-			 String realKey  = prefix.getPrefix() + key;
-			return jedisCluster.exists(realKey);
-	     }
- 
-	
+			try{ 
+				jedisCluster = jedisClusterConfig.getJedisCluster();
+				//生成真正的key
+				 String realKey  = prefix.getPrefix() + key;
+				return jedisCluster.exists(realKey);
+			}
+			finally{
+				//returnToClusterPool(jedisCluster);
+			}
+			
+	     } 
 	/**
 	 * 增加值
 	 * */
 	public <T> Long incr(KeyPrefix prefix, String key) {
 		JedisCluster jedisCluster = null; 
-			 jedisCluster = jedisClusterConfig.getJedisCluster();
-			//生成真正的key
-			 String realKey  = prefix.getPrefix() + key;
-			return  jedisCluster.incr(realKey);
+			 try{
+				 jedisCluster = jedisClusterConfig.getJedisCluster();
+					//生成真正的key
+					 String realKey  = prefix.getPrefix() + key;
+					return  jedisCluster.incr(realKey); 
+			 }
+			 finally{
+				// returnToClusterPool(jedisCluster);
+			 }
 	  }
 	
 	
@@ -149,10 +158,14 @@ public class RedisService {
 	 * */
 	public <T> Long decr(KeyPrefix prefix, String key) {
 		JedisCluster jedisCluster = null; 
-			 jedisCluster = jedisClusterConfig.getJedisCluster();
+		try{
+			jedisCluster = jedisClusterConfig.getJedisCluster();
 			//生成真正的key
 			 String realKey  = prefix.getPrefix() + key;
 			return  jedisCluster.decr(realKey);
+		}finally{
+			//returnToClusterPool(jedisCluster);
+		}
 	 }
 	
 	
@@ -161,16 +174,35 @@ public class RedisService {
 	 * */
 	public boolean delete(KeyPrefix prefix, String key) {
 		JedisCluster jedisCluster = null; 
+		try{
 			 jedisCluster = jedisClusterConfig.getJedisCluster();
-			//生成真正的key
-			 String realKey  = prefix.getPrefix() + key;
-			 long ret = jedisCluster.del(realKey);
-			 return ret>0; 
+				//生成真正的key
+				 String realKey  = prefix.getPrefix() + key;
+				 long ret = jedisCluster.del(realKey);
+				 return ret>0;
+		}finally{
+			//returnToClusterPool(jedisCluster);
+		}
 	 }
  
 	
 	
+	//--------------------------------------------------------------------------//
 	
-	
+	//我们使用的是redis3.0的集群，用jedis的JedisCluster.close()方法造成的集群连接关闭的情况。 
+	//jedisCluster内部使用了池化技术，每次使用完毕都会自动释放Jedis因此不需要关闭。
+	//否则会出现：  No reachable node in cluster
+	 /*private void returnToClusterPool(JedisCluster jedisCluster) { 
+			if(jedisCluster!=null){
+				try {
+					jedisCluster.close();
+				} catch (IOException e) { 
+					e.printStackTrace();
+				}
+			}
+	}*/
+	 
+	 
+	  
 	
 }

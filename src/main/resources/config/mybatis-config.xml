@@ -23,16 +23,9 @@
 		<typeAlias type="java.lang.Double" alias="double"/>
 		<typeAlias type="java.util.Date" alias="date"/>
 		
-		<!-- 分页 -->
-		<!-- <typeAlias type="com.starbo.entity.Page" alias="Page"/> -->
-		
-	</typeAliases>
-	
-	<!-- <plugins>
-		<plugin interceptor="com.fh.plugin.PagePlugin">
-			<property name="dialect" value="sqlServer"/>
-			<property name="pageSqlId" value=".*listPage.*"/>
-		</plugin>
-	</plugins> -->
+	</typeAliases> 
+     
+     
+     
 	
 </configuration>

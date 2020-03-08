@@ -1,6 +1,7 @@
 package pers.yhf.seckill.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.util.StringUtils;
 
-import pers.yhf.seckill.config.SecKillConfig;  
+import pers.yhf.seckill.config.SecKillConfig;
+import pers.yhf.seckill.domain.SeckillGoods;
 import pers.yhf.seckill.domain.SeckillUser;
 import pers.yhf.seckill.exception.GlobalException;
 import pers.yhf.seckill.mapper.SeckillUserMapper;
@@ -38,6 +40,17 @@ public class SeckillUserService {
 	@Autowired
 	private SeckillUserService seckillUserService;
 	
+	
+	
+	public List<SeckillGoods> getSeckillGoodsVoList(){
+		// 查询所有参与秒杀的商品Id
+	   List<SeckillGoods> seckillGoodsList = this.seckillUserMapper.getSeckillGoodsList();
+	    
+		return seckillGoodsList; 
+	} 
+	
+	
+	   
 	
 	public SeckillUser getUserById(long id){
 		  //取缓存

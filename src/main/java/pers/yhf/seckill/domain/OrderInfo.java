@@ -1,5 +1,6 @@
 package pers.yhf.seckill.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class OrderInfo {
@@ -19,7 +20,7 @@ public class OrderInfo {
 
     private Integer goodsCount;
 
-    private Double goodsPrice;
+    private BigDecimal goodsPrice;
 
     private Integer orderChannel;
 
@@ -77,11 +78,11 @@ public class OrderInfo {
         this.goodsCount = goodsCount;
     }
 
-    public Double getGoodsPrice() {
+    public BigDecimal getGoodsPrice() {
         return goodsPrice;
     }
 
-    public void setGoodsPrice(Double goodsPrice) {
+    public void setGoodsPrice(BigDecimal goodsPrice) {
         this.goodsPrice = goodsPrice;
     }
 

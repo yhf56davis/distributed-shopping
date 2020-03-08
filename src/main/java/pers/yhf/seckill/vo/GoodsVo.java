@@ -1,12 +1,20 @@
 package pers.yhf.seckill.vo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import pers.yhf.seckill.domain.Goods;
 
+/**
+ * 秒杀商品VO
+ * @author Yin_22
+ *
+ */
 public class GoodsVo extends Goods{
 	
-	private Double seckillPrice;
+	private Goods goods;
+	
+	private  BigDecimal seckillPrice;
 	
 	private Integer stockCount;
 	
@@ -15,12 +23,20 @@ public class GoodsVo extends Goods{
 	private Date endDate;
 
 	
+	public Goods getGoods() {
+		return goods;
+	}
 
-	public Double getSeckillPrice() {
+	public void setGoods(Goods goods) {
+		this.goods = goods;
+	}
+
+
+	public BigDecimal getSeckillPrice() {
 		return seckillPrice;
 	}
 
-	public void setSeckillPrice(Double seckillPrice) {
+	public void setSeckillPrice(BigDecimal seckillPrice) {
 		this.seckillPrice = seckillPrice;
 	}
 	
