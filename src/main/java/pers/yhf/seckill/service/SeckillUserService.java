@@ -96,13 +96,13 @@ public class SeckillUserService {
 
 		Map<String,Object> map =new HashMap<String,Object>();
 		   
-		SeckillUser user = this.seckillUserService.getMiaoshaUserByNickName(nickname);
+		SeckillUser user = this.seckillUserService.getSeckillUserByNickName(nickname);
 		     // System.out.println(user.getSalt()); 
 		   
 		   String realPassword = MD5Util.inputPassToDBPass(password,user.getSalt());  //加密后的密码
 		    //登录成功
 		   if(!realPassword.equals(user.getPassword())) map.put("loginStatus", 0);
-	 	   this.seckillUserService.updateMiaoshaUserLoginInfo(nickname); 
+	 	   this.seckillUserService.updateSeckillUserLoginInfo(nickname); 
 	    	map.put("loginStatus",1);
 	 		//System.out.println("用户输入密码123456，则真正网络上传输的串："+MD5Util.inputPassToFormPass("123456"));
 	       // System.out.println(MD5Util.inputPassToDBPass("123456","1a2b3c4d")); 
@@ -125,12 +125,12 @@ public class SeckillUserService {
 	  /**
 	 * 登录信息更新
 	 */
-	public void updateMiaoshaUserLoginInfo(String nickname){
+	public void updateSeckillUserLoginInfo(String nickname){
 	    this.seckillUserMapper.updateSeckillUserLoginInfo(nickname);	
 	}
 	 
 	
-	public SeckillUser getMiaoshaUserByNickName(String nickname){
+	public SeckillUser getSeckillUserByNickName(String nickname){
 		return this.seckillUserMapper.getSeckillUserByNickName(nickname);
 	}
 	

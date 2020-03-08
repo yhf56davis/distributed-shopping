@@ -52,7 +52,7 @@ public class LoginController {
 		   
 		    // System.out.println("password: "+password); 
 		   
-		SeckillUser user = this.seckillUserService.getMiaoshaUserByNickName(nickname);
+		SeckillUser user = this.seckillUserService.getSeckillUserByNickName(nickname);
 		     // System.out.println(user.getSalt()); 
 		   
 		   String realPassword = MD5Util.inputPassToDBPass(password,user.getSalt());  //加密后的密码
