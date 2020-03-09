@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody; 
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.spring4.context.SpringWebContext;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
