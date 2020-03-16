@@ -41,5 +41,14 @@ public class User {
 	public void setFlag(int flag) {
 		this.flag = flag;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", phone=" + phone + ", flag="
+				+ flag + "]";
+	}
+	
     
 }
