@@ -13,6 +13,7 @@ import pers.yhf.seckill.domain.OrderInfo;
 import pers.yhf.seckill.mapper.OrderMapper;
 import pers.yhf.seckill.redisCluster.RedisService;
 import pers.yhf.seckill.redisCluster.SecKillActivityKey;
+import pers.yhf.seckill.util.TimeUtil;
 import pers.yhf.seckill.vo.GoodsVo;
 
 @Service
@@ -34,9 +35,11 @@ public class OrderService {
 	@Transactional
 	public OrderInfo createOrder(SeckillUser user, GoodsVo goods) { 
 		
+		String orderId = TimeUtil.getRandomTimeId();
+		
 		OrderInfo orderInfo = new OrderInfo();
 		
-		
+		orderInfo.setOrderId(orderId); 
 		orderInfo.setCreateDate(new Date()); 
 		orderInfo.setDeliveryAddrId(0L); 
 		orderInfo.setGoodsCount(1);
@@ -52,7 +55,7 @@ public class OrderService {
 		
 		SeckillOrder seckillOrder = new SeckillOrder();
 		 seckillOrder.setGoodsId(goods.getId());
-		 seckillOrder.setOrderId(orderInfo.getId());
+		 seckillOrder.setOrderId(orderInfo.getOrderId()); 
 		 seckillOrder.setUserId(user.getId());
 		
 		orderMapper.insertSeckillOrder(seckillOrder);

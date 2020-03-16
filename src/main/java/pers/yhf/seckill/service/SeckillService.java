@@ -62,17 +62,17 @@ public class SeckillService {
 
 	
 
-	public long getMiaoshaResult(Long userId, long goodsId) {
+	public String getSeckillResult(Long userId, long goodsId) {
 		SeckillOrder order = orderService.getSeckillOrderByUserIdAndGoodsId(userId, goodsId);
 		 if(order!=null){  //秒杀成功
 			 return order.getOrderId();
 		 }else{
 			 boolean isOver = getGoodsOver(goodsId);
 			 if(isOver){
-				 return -1;
+				 return "-1";
 			 }
 			 else{  //没有卖完，继续轮询
-				 return 0;
+				 return "0";
 			 }
 		 }
 		 

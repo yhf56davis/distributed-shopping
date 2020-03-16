@@ -43,7 +43,7 @@ public class SeckillOrderConfig {
 		      System.out.println("失效订单信息：    goodsId:"+seckillOrder.getGoodsId() + "  userId:"+seckillOrder.getUserId());
 		    	 
 		      //删除缓存中秒杀商品
-		 	  this.redisService.delete(SecKillActivityKey.getSecKillOrderByUidGid, ""+seckillOrder.getId()+"_"+seckillOrder.getGoodsId()); 
+		 	  this.redisService.delete(SecKillActivityKey.getSecKillOrderByUidGid, ""+seckillOrder.getOrderId()+"_"+seckillOrder.getGoodsId()); 
 		 	      
 		 	  //订单取消
 		 	  this.orderService.deleteOrder(seckillOrder.getGoodsId(), seckillOrder.getUserId()); 

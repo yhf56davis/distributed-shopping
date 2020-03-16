@@ -1,5 +1,7 @@
 package pers.yhf.seckill.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Random;
 
 public class TimeUtil {
@@ -22,6 +24,17 @@ public class TimeUtil {
 	public static int getRandomTimeValue(){
 		Random rand = new Random();
 		return 60*(initalTime + rand.nextInt(maxtTime));
+	}
+	
+	
+	public static String getRandomTimeId(){
+		Calendar calendar = Calendar.getInstance(); // get current instance of the calendar  
+		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+		String result = formatter.format(calendar.getTime());
+		
+		System.out.println();  
+        return result;
 	}
 	
 

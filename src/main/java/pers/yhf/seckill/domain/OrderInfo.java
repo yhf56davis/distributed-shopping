@@ -9,8 +9,10 @@ public class OrderInfo {
 	//--------------------------------------------------------//
 	
     private Long id;
+    
+    private String orderId;
 
-    private Long userId;
+	private Long userId;
 
     private Long goodsId;
 
@@ -38,6 +40,16 @@ public class OrderInfo {
         this.id = id;
     }
 
+    
+    public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+    
+    
     public Long getUserId() {
         return userId;
     }

@@ -5,12 +5,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
-
-import pers.yhf.seckill.util.ReadUtil;
   
 
 @SpringBootApplication
@@ -18,10 +14,7 @@ import pers.yhf.seckill.util.ReadUtil;
 public class SecKillApplication extends SpringBootServletInitializer implements CommandLineRunner{
 	 
     public static void main(String[] args) throws Exception {
-     
-    	String result = ReadUtil.getContentFromProperties("server_pic_url");
-    	  System.out.println(result);
-    	
+       
     	int size = 1000000;
     	BloomFilter<Integer> bloomFilter = BloomFilter.create(Funnels.integerFunnel(), size);
     	
@@ -37,10 +30,13 @@ public class SecKillApplication extends SpringBootServletInitializer implements 
         long endTime = System.nanoTime();   // 获取结束时间
         System.out.println("程序运行时间： " + (endTime - startTime) + "ns");
 
+          SpringApplication.run(SecKillApplication.class, args); 
     	
-    	
-    	SpringApplication.run(SecKillApplication.class, args); 
     }
+    
+    
+    
+    
 
 	@Override
 	public void run(String... arg0) throws Exception {

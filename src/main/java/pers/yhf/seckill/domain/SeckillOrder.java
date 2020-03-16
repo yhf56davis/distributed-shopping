@@ -10,21 +10,23 @@ public class SeckillOrder {
 	    但为了防止出现理论上的这种问题，我们还是要在 miaosha_order表上上建一个唯一索引
 	 */
 	
-    private Long id;
+    //private Long id;
 
     private Long userId;
 
-    private Long orderId;
+    private String orderId;
 
     private Long goodsId;
 
-    public Long getId() {
+   
+    /*public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
+    }*/
+    
 
     public Long getUserId() {
         return userId;
@@ -34,11 +36,11 @@ public class SeckillOrder {
         this.userId = userId;
     }
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

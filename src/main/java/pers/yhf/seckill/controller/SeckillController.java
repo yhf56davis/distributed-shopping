@@ -174,11 +174,11 @@ public class SeckillController implements InitializingBean{
 	 */
 	@RequestMapping(value="/result",method = RequestMethod.GET)
 	@ResponseBody
-    public Result<Long> miaoshaResult(Model model,SeckillUser user,
+    public Result<String> seckillResult(Model model,SeckillUser user,
     		@RequestParam("goodsId")long goodsId) {
 	    model.addAttribute("user",user);
 	     if(user == null)return Result.error(CodeMsg.SESSION_ERROR);
-	     long result = seckillService.getMiaoshaResult(user.getId(),goodsId);
+	     String result = seckillService.getSeckillResult(user.getId(),goodsId);
 	     return Result.success(result);
 	}
 	
@@ -256,7 +256,7 @@ public class SeckillController implements InitializingBean{
 		    	  System.out.println("失效订单信息：    goodsId:"+seckillOrder.getGoodsId() + "  userId:"+seckillOrder.getUserId());
 		    	 
 		    	 //删除缓存中秒杀商品
-		 	    this.redisService.delete(SecKillActivityKey.getSecKillOrderByUidGid, ""+seckillOrder.getId()+"_"+seckillOrder.getGoodsId()); 
+		 	    this.redisService.delete(SecKillActivityKey.getSecKillOrderByUidGid, ""+seckillOrder.getOrderId()+"_"+seckillOrder.getGoodsId()); 
 		 	      
 		 	     //订单取消
 		 	    this.orderService.deleteOrder(seckillOrder.getGoodsId(), seckillOrder.getUserId()); 
