@@ -9,6 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
+
+import pers.yhf.seckill.util.ReadUtil;
   
 
 @SpringBootApplication
@@ -16,9 +18,9 @@ import com.google.common.hash.Funnels;
 public class SecKillApplication extends SpringBootServletInitializer implements CommandLineRunner{
 	 
     public static void main(String[] args) throws Exception {
-    	
-    	//System.out.println(AMQP.PROTOCOL.PORT);
-    	//  @MapperScan("pers.yhf.seckill.mapper") 
+     
+    	String result = ReadUtil.getContentFromProperties("server_pic_url");
+    	  System.out.println(result);
     	
     	int size = 1000000;
     	BloomFilter<Integer> bloomFilter = BloomFilter.create(Funnels.integerFunnel(), size);

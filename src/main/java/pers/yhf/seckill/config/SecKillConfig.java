@@ -13,7 +13,7 @@ public class SecKillConfig {
 	public static final int TOKEN_EXPIRE = 3600*24*2;  //两天
 	
 	//图片服务器地址
-	public static final String SECKILL_IMAGES_ADDR = "192.168.229.128/images/";
+	public static final String SECKILL_IMAGES_ADDR = "47.92.251.151:8086/goodsImages/";
 	
 	
 	//秒杀商品缓存操作的过期时间设置   10min  (单位：秒)，其中0表示永久
