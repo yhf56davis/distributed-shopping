@@ -68,12 +68,13 @@ public class GoodsService {
 
 
 
-	public boolean reduceStock(GoodsVo goods) {
-		SeckillGoods miaoshagoods = new SeckillGoods();
-		 miaoshagoods.setGoodsId(goods.getId()); 
-		  int ret = goodsMapper.reduceStock(miaoshagoods);
-		  return ret>0;
-		}
+	public boolean reduceStock(GoodsVo goods,long version) {
+		SeckillGoods seckillGoods = new SeckillGoods();
+		    seckillGoods.setGoodsId(goods.getId());
+		    seckillGoods.setVersion(version);
+	    int ret = goodsMapper.reduceStock(seckillGoods);
+		 return ret>0;
+	 }
 	 
 
 /*

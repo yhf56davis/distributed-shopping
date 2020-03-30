@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pers.yhf.seckill.domain.SeckillOrder;
 import pers.yhf.seckill.domain.SeckillUser;
+import pers.yhf.seckill.mapper.SeckillGoodsMapper;
 import pers.yhf.seckill.mapper.SeckillUserMapper;
 import pers.yhf.seckill.domain.OrderInfo;
 import pers.yhf.seckill.domain.SeckillGoods;
@@ -30,7 +31,7 @@ public class SeckillService {
 
 	@Autowired
 	private GoodsService goodsService;
-	
+	  
 	@Autowired
 	private OrderService orderService;
 	
@@ -40,6 +41,8 @@ public class SeckillService {
 	@Autowired
 	private SeckillUserMapper seckillUserMapper;
 	
+	@Autowired
+	private SeckillGoodsMapper seckillGoodsMapper;
 	 
 	@Transactional
 	public OrderInfo seckill(SeckillUser user, GoodsVo goods) {
@@ -47,8 +50,11 @@ public class SeckillService {
 		 //减库存而未记录购买明细，会导致商品少卖
 		 //记录购买明细而未减库存，会导致商品超卖
 		
+		//获取版本号
+		long version = this.seckillGoodsMapper.getSeckillGoodsVersion(goods.getId());
+		
 	   //减库存  下订单  写入秒杀订单
-		boolean success = goodsService.reduceStock(goods);  //这里 减库存有可能失败
+		boolean success = goodsService.reduceStock(goods,version);  //这里 减库存有可能失败
 		//减库存成功才需要下订单
 		if(success){
 		return orderService.createOrder(user,goods);
