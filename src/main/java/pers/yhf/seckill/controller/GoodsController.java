@@ -53,10 +53,10 @@ public class GoodsController {
 	     String html = redisService.get(SecKillActivityKey.getGoodsList, "", String.class);
 	     
 	     
-	     /*if(!StringUtils.isEmpty(html)){
+	     if(!StringUtils.isEmpty(html)){
 	    	  System.out.println("Redis有数据"); 
 	    	 return html;
-	     }*/
+	     }
 	    
 	     
 	      //查询商品列表

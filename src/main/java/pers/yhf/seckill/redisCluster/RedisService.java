@@ -52,7 +52,7 @@ public class RedisService {
             //returnToClusterPool(jedisCluster);
            }
          finally{
-        	// returnToClusterPool(jedisCluster);
+        	//returnToClusterPool(jedisCluster);
          }
          return false;
     }
@@ -71,7 +71,7 @@ public class RedisService {
 		    return t; 
         }
          finally{
-        	 //returnToClusterPool(jedisCluster);
+        	//returnToClusterPool(jedisCluster);
          }
 	 }
      
@@ -148,7 +148,7 @@ public class RedisService {
 					return  jedisCluster.incr(realKey); 
 			 }
 			 finally{
-				// returnToClusterPool(jedisCluster);
+				//returnToClusterPool(jedisCluster);
 			 }
 	  }
 	
@@ -192,7 +192,7 @@ public class RedisService {
 	//我们使用的是redis3.0的集群，用jedis的JedisCluster.close()方法造成的集群连接关闭的情况。 
 	//jedisCluster内部使用了池化技术，每次使用完毕都会自动释放Jedis因此不需要关闭。
 	//否则会出现：  No reachable node in cluster
-	 /*private void returnToClusterPool(JedisCluster jedisCluster) { 
+	private void returnToClusterPool(JedisCluster jedisCluster) { 
 			if(jedisCluster!=null){
 				try {
 					jedisCluster.close();
@@ -200,7 +200,7 @@ public class RedisService {
 					e.printStackTrace();
 				}
 			}
-	}*/
+	}
 	 
 	 
 	  
