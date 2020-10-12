@@ -6,7 +6,8 @@
  1)网络延迟;  2)表单提交后又点击刷新按钮;  3)提交表单后，点后退按钮到表单页面又再次提交。 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;解决方法：session令牌环方法   <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;原理如下图所示：<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![输入图片说明](https://images.gitee.com/uploads/images/2018/1213/231552_0b8fa9c8_1648495.png "1.png")  <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1012/101131_7e45ac41_1648495.png "session原理.png")  <br>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①客户端访问服务器  <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②服务器为客户端与服务器之间的会话创建一个session对象，同时生成唯一的sessionId，存入到session中。  <br>
